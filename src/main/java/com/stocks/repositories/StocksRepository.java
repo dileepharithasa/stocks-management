@@ -1,7 +1,9 @@
 package com.stocks.repositories;
 
-import com.stocks.entities.StocksEntity;
+import com.stocks.entities.StockEntity;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface StocksRepository extends CrudRepository<StocksEntity, Integer> {
+@Repository
+public interface StocksRepository extends CrudRepository<StockEntity, Integer> {
 }

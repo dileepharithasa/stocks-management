@@ -1,6 +1,7 @@
 package com.stocks.controllers;
 
-import com.stocks.entities.StocksEntity;
+import com.stocks.entities.StockEntity;
+import com.stocks.models.Stock;
 import com.stocks.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping(path="/stocks_management")
 public class StocksController {
-
     @Autowired
     private StockService stockService;
 
     @GetMapping(path = "/stocks")
-    public @ResponseBody List<StocksEntity> getStocks() {
-        List<StocksEntity> StocksList = stockService.getStocks();
+    public @ResponseBody List<Stock> getStocks() {
+        List<Stock> StocksList = stockService.getStocks();
         return StocksList;
     }
 
