@@ -1,22 +1,19 @@
 package com.stocks.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@NoArgsConstructor
-@ToString
-@Setter
 @Getter
-public class Stock {
-
-    Integer stockId;
-    String stockName;
-    BigDecimal stockPrice;
-    Date stockLastUpdate;
-
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Stock implements Serializable  {
+    private Integer stockId;
+    private String stockName;
+    private BigDecimal stockPrice;
+    private Date stockLastUpdate;
 }

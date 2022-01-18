@@ -7,12 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @Configuration
-@EnableAutoConfiguration()
+@EnableAutoConfiguration
 public class StocksApplication {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(StocksApplication.class, args);
 	}
-
 }

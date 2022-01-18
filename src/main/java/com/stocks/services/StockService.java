@@ -1,43 +1,52 @@
 package com.stocks.services;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stocks.entities.StockEntity;
 import com.stocks.models.Stock;
 import com.stocks.repositories.StocksRepository;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@Component
+@Service
 public class StockService {
 
     @Autowired
     private StocksRepository stocksRepository;
 
-    public List<Stock> getStocks() {
-        List<StockEntity> stockEntityList = (List<StockEntity>) stocksRepository.findAll();
-        final List<Stock> castedList = typeCastList(stockEntityList, Stock.class);
-        return castedList;
+    public Stock addStock(Stock stock) {
+        StockEntity stockEntity = new DozerBeanMapper().map(stock, StockEntity.class);
+        stockEntity = stocksRepository.save(stockEntity);
+        Stock stockSaved = new DozerBeanMapper().map(stockEntity, Stock.class);
+        return stockSaved;
     }
 
-    static <T> List<T> typeCastList(final Iterable<?> fromList,
-                                    final Class<T> instanceClass) {
-        final List<T> list = new ArrayList<>();
-        final ObjectMapper mapper = new ObjectMapper();
-        for (final Object item : fromList) {
-            final T entry = item instanceof List<?> ? instanceClass.cast(item) : mapper.convertValue(item, instanceClass);
-            list.add(entry);
-        }
-        return list;
+    public List<Stock> getStocks() {
+        List<StockEntity> stockEntityList = (List<StockEntity>) stocksRepository.findAll();
+        ArrayList stockList = new DozerBeanMapper().map(stockEntityList, new ArrayList<Stock>().getClass());
+        return stockList;
     }
-    public static Object objectMapper(Object object){
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        Stock stock = mapper.convertValue(object, Stock.class);
+
+    public Stock getStockByStockId(Integer stockId) {
+        Optional<StockEntity> stockEntityOption = stocksRepository.findById(stockId);
+        Stock stock = new DozerBeanMapper().map(stockEntityOption.get(), Stock.class);
         return stock;
+    }
+
+    public Stock updateStock(Stock stock) {
+        StockEntity stockEntity = new DozerBeanMapper().map(stock, StockEntity.class);
+        StockEntity entityUpdated = stocksRepository.save(stockEntity);
+        Stock stockUpdated = new DozerBeanMapper().map(entityUpdated, Stock.class);
+        return stockUpdated;
+
+    }
+
+    public void deleteStockByStockId(Integer stockId) {
+        stocksRepository.deleteById(stockId);
     }
 
 }
