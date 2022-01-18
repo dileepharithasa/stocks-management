@@ -16,17 +16,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 @Configuration
-@EnableSwagger2
-@EnableSwagger2WebMvc
-public class SwaggerConfig extends WebMvcConfigurationSupport {
+public class SwaggerConfig  {
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.stocks"))
                 .paths(PathSelectors.any())
-                .build()
-                .apiInfo(metaData());
+                .build();
+               // .apiInfo(metaData());
     }
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
@@ -37,12 +35,5 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
                 .contact(new Contact("Stocks Team", "", "dileepharithasa@gmail.com"))
                 .build();
-    }
-    @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }
