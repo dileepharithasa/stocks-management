@@ -111,5 +111,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>Stocks_management</finalName>
     </build>
 </project>
