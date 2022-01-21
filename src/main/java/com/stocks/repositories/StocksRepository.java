@@ -8,4 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface StocksRepository extends JpaRepository<StockEntity, Integer> {
+
 }

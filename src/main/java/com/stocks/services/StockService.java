@@ -5,7 +5,10 @@ import com.stocks.models.Stock;
 import com.stocks.repositories.StocksRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,10 +28,18 @@ public class StockService {
         return stockSaved;
     }
 
-    public List<Stock> getStocks() {
-        List<StockEntity> stockEntityList = (List<StockEntity>) stocksRepository.findAll();
-        ArrayList stockList = new DozerBeanMapper().map(stockEntityList, new ArrayList<Stock>().getClass());
-        return stockList;
+    public List<Stock> getStocks(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<StockEntity> stockEntityList = (Page<StockEntity>) stocksRepository.findAll(paging);
+
+        if(stockEntityList.hasContent()) {
+            ArrayList stockList = new DozerBeanMapper().map(stockEntityList.getContent(), new ArrayList<Stock>().getClass());
+            return stockList;
+        } else {
+            return new ArrayList<Stock>();
+        }
+
     }
 
     public Stock getStockByStockId(Integer stockId) {

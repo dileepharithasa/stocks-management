@@ -17,10 +17,12 @@ public class StocksController {
     private StockService stockService;
 
     @GetMapping(path = "/stocks")
-    public ResponseEntity getStocks() throws Exception {
+    public ResponseEntity getStocks(@RequestParam(defaultValue = "0") Integer pageNo,
+                                    @RequestParam(defaultValue = "5") Integer pageSize,
+                                    @RequestParam(defaultValue = "stockId") String sortBy) throws Exception {
         List<Stock> StocksList = null;
         try {
-            StocksList = stockService.getStocks();
+            StocksList = stockService.getStocks(pageNo, pageSize, sortBy);
         } catch (Exception ex) {
             StockResponse error = StockResponse.builder()
                     .errorMessage("Error retrieving the stocks")
