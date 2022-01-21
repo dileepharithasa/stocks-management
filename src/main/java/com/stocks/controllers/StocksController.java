@@ -1,10 +1,12 @@
 package com.stocks.controllers;
 
+import com.stocks.exceptions.BadRequestException;
 import com.stocks.exceptions.RecordNotFoundException;
 import com.stocks.models.Stock;
 import com.stocks.models.StockResponse;
 import com.stocks.services.StockService;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,14 +55,13 @@ public class StocksController {
     @PostMapping(path = "/stocks")
     public ResponseEntity addStock(@RequestBody Stock stock) throws Exception {
         Stock stockSaved = null;
+        if (StringUtils.isEmpty(stock.getStockName()) || stock.getStockPrice() == null) {
+            throw new BadRequestException("please correct the request again and try again");
+        }
         try {
             stockSaved = stockService.addStock(stock);
         } catch (Exception ex) {
-            StockResponse error = StockResponse.builder()
-                    .errorMessage("Error adding the stock")
-                    .httpStatus(String.valueOf(HttpStatus.BAD_REQUEST)).
-                    status("Add Stocks service error").build();
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+            throw new Exception("Internal Server Error");
         }
         return new ResponseEntity<>(stockSaved, HttpStatus.OK);
     }
@@ -87,7 +88,7 @@ public class StocksController {
         try {
             stockService.deleteStockByStockId(stockId);
         } catch (Exception ex) {
-            if (ex instanceof RecordNotFoundException) {
+            if (ex instanceof org.springframework.dao.EmptyResultDataAccessException) {
                 throw new RecordNotFoundException("No record found to delete with stockId : " + stockId);
             } else {
                 throw new Exception("Internal Server Error");

@@ -48,7 +48,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public Stock getStockByStockId(Integer stockId) throws Exception {
         Optional<StockEntity> stockEntityOption = stocksRepository.findById(stockId);
-        if (Objects.nonNull(stockEntityOption))
+        if (!stockEntityOption.isPresent())
             throw new RecordNotFoundException("Record not found");
         Stock stock = new DozerBeanMapper().map(stockEntityOption.get(), Stock.class);
         return stock;
@@ -57,7 +57,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public Stock updateStock(Stock stock) throws Exception {
         StockEntity stockEntity = stocksRepository.getById(stock.getStockId());
-        if (Objects.nonNull(stockEntity))
+        if (Objects.isNull(stockEntity))
             throw new RecordNotFoundException("Record not found");
         StockEntity stockEntityToUpdate = new DozerBeanMapper().map(stock, StockEntity.class);
         StockEntity entityUpdated = stocksRepository.save(stockEntityToUpdate);
@@ -69,7 +69,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public void deleteStockByStockId(Integer stockId) throws Exception {
         StockEntity stockEntity = stocksRepository.getById(stockId);
-        if (Objects.nonNull(stockEntity))
+        if (Objects.isNull(stockEntity))
             throw new RecordNotFoundException("Record not found");
         stocksRepository.deleteById(stockId);
     }

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -26,6 +27,13 @@ public class StocksResponseEntityExceptionHandler extends ResponseEntityExceptio
         StocksErrorResponse errorDetails = new StocksErrorResponse(new Date(), ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.BadRequest.class)
+    public final ResponseEntity<StocksErrorResponse> handleAllExceptions(BadRequestException ex, WebRequest request) {
+        StocksErrorResponse errorDetails = new StocksErrorResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
 }
