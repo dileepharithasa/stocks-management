@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class StocksApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(StocksApplication.class, args);
     }
+
 }
