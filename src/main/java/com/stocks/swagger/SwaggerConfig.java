@@ -23,13 +23,13 @@ public class SwaggerConfig  {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.stocks"))
                 .paths(PathSelectors.any())
-                .build();
-               // .apiInfo(metaData());
+                .build()
+                .apiInfo(metaData());
     }
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
                 .title("Stocks API Management")
-                .description("\"Stocks API Management\"")
+                //.description("\"Stocks API Management\"")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")

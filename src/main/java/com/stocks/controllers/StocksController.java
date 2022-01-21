@@ -4,6 +4,7 @@ import com.stocks.exceptions.RecordNotFoundException;
 import com.stocks.models.Stock;
 import com.stocks.models.StockResponse;
 import com.stocks.services.StockService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(value = "StocksController", tags = "Stocks REST API Documentation")
 @RestController
 @RequestMapping(path = "/stocks_management")
 public class StocksController {
