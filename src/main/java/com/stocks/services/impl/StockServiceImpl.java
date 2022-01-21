@@ -25,7 +25,7 @@ public class StockServiceImpl implements StockService {
     private StocksRepository stocksRepository;
 
     @Override
-    public Stock addStock(Stock stock) throws  Exception{
+    public Stock addStock(Stock stock) throws Exception {
         StockEntity stockEntity = new DozerBeanMapper().map(stock, StockEntity.class);
         stockEntity = stocksRepository.save(stockEntity);
         Stock stockSaved = new DozerBeanMapper().map(stockEntity, Stock.class);
@@ -36,7 +36,7 @@ public class StockServiceImpl implements StockService {
     public List<Stock> getStocks(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<StockEntity> stockEntityList = (Page<StockEntity>) stocksRepository.findAll(paging);
-        if(stockEntityList.hasContent()) {
+        if (stockEntityList.hasContent()) {
             ArrayList stockList = new DozerBeanMapper().map(stockEntityList.getContent(), new ArrayList<Stock>().getClass());
             return stockList;
         } else {
@@ -44,18 +44,20 @@ public class StockServiceImpl implements StockService {
         }
 
     }
+
     @Override
-    public Stock getStockByStockId(Integer stockId) throws  Exception{
+    public Stock getStockByStockId(Integer stockId) throws Exception {
         Optional<StockEntity> stockEntityOption = stocksRepository.findById(stockId);
-        if(Objects.nonNull(stockEntityOption))
+        if (Objects.nonNull(stockEntityOption))
             throw new RecordNotFoundException("Record not found");
         Stock stock = new DozerBeanMapper().map(stockEntityOption.get(), Stock.class);
         return stock;
     }
+
     @Override
-    public Stock updateStock(Stock stock) throws Exception{
-        StockEntity stockEntity =  stocksRepository.getById(stock.getStockId());
-        if(Objects.nonNull(stockEntity))
+    public Stock updateStock(Stock stock) throws Exception {
+        StockEntity stockEntity = stocksRepository.getById(stock.getStockId());
+        if (Objects.nonNull(stockEntity))
             throw new RecordNotFoundException("Record not found");
         StockEntity stockEntityToUpdate = new DozerBeanMapper().map(stock, StockEntity.class);
         StockEntity entityUpdated = stocksRepository.save(stockEntityToUpdate);
@@ -63,10 +65,11 @@ public class StockServiceImpl implements StockService {
         return stockUpdated;
 
     }
+
     @Override
-    public void deleteStockByStockId(Integer stockId) throws  Exception {
-        StockEntity stockEntity =  stocksRepository.getById(stockId);
-        if(Objects.nonNull(stockEntity))
+    public void deleteStockByStockId(Integer stockId) throws Exception {
+        StockEntity stockEntity = stocksRepository.getById(stockId);
+        if (Objects.nonNull(stockEntity))
             throw new RecordNotFoundException("Record not found");
         stocksRepository.deleteById(stockId);
     }

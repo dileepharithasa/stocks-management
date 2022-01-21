@@ -17,18 +17,18 @@ import java.util.Date;
 public class StockEntity implements Serializable {
 
 
-    @Column(name= "stock_id")
+    @Column(name = "stock_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer stockId;
 
-    @Column(name= "stock_name")
+    @Column(name = "stock_name")
     private String stockName;
 
-    @Column(name= "stock_price")
+    @Column(name = "stock_price")
     private BigDecimal stockPrice;
 
-    @Column(name= "stock_last_update")
+    @Column(name = "stock_last_update")
     private Date stockLastUpdate;
 
 }

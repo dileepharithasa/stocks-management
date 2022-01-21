@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Stock implements Serializable  {
+public class Stock implements Serializable {
     private Integer stockId;
     private String stockName;
     private BigDecimal stockPrice;
