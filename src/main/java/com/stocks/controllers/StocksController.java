@@ -18,7 +18,7 @@ public class StocksController {
     private StockService stockService;
 
     @GetMapping(path = "/stocks")
-    public ResponseEntity getStocks(@RequestParam(defaultValue = "0") Integer pageNo,
+    public ResponseEntity getStocks(@RequestParam(defaultValue = "1") Integer pageNo,
                                     @RequestParam(defaultValue = "5") Integer pageSize,
                                     @RequestParam(defaultValue = "stockId") String sortBy) throws Exception {
         List<Stock> StocksList = null;
